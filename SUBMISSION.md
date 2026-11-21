@@ -3,8 +3,11 @@
 Project: ReleaseBrief (this repository)
 SDK: OpenMinion 0.1.22 (`openminion==0.1.22`, PyPI), Python 3.12
 Status: implemented and verified locally (unit tests + SDK smoke test +
-offline end-to-end demo). Live model demo video and PR not yet submitted —
-see "Remaining steps" below.
+offline end-to-end demo). Public repo published 2026-11-21:
+https://github.com/Rio-M666/releasebrief-cortensor
+Live model run is BLOCKED on credentials (no provider API key available on
+the build machine — see "Live run status" below). Demo video, submission PR
+and DoraHacks listing not yet submitted — see "Remaining steps" below.
 
 ## Building Blocks Tested
 
@@ -73,18 +76,43 @@ see "Remaining steps" below.
   an application; sharing one Pydantic schema between live and offline
   modes kept both honest.
 
+## Live run status (checked 2026-11-21)
+
+BLOCKED — no real model provider can be configured on the build machine:
+
+- Environment check (names only, no values read): no `OPENAI_API_KEY`,
+  `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`, `GOOGLE_API_KEY` or any other
+  `*_API_KEY` / `*_TOKEN` variable is set in the VM environment.
+- No `.env` file in the project, no existing OpenMinion config
+  (`~/.openminion` / project `.openminion/` absent), and no local Ollama
+  binary installed.
+- The only provider ever configured here is the echo provider, inside the
+  throwaway HOME of `tests/smoke_agent.py` — a wiring check that cannot do
+  model-selected tool use (see Finding 1).
+
+So a live run with `stats.tool_calls > 0` still requires a human to supply
+one provider credential (or Cortensor Portal access) and run
+`openminion setup --no-chat` once. No credential was invented or pulled
+from any credential store to work around this.
+
 ## Remaining steps to submit (before the Dec 19, 2026 deadline)
 
-1. Push this repo to a public GitHub repository.
+1. ✅ DONE (2026-11-21) — Public GitHub repository:
+   https://github.com/Rio-M666/releasebrief-cortensor (full history pushed;
+   history grepped for key-like strings before publishing — 0 matches, no
+   `.env` or key material ever committed).
 2. Configure a real provider (`openminion setup --no-chat`; Cortensor
    Portal if access is granted) and run the live demo:
    `python main.py --repo . --since "30 days ago"` — verify
    `tool_calls > 0` and a brief file appears in `briefs/`.
+   (Blocked on a provider credential — see "Live run status".)
 3. Record a 1–5 minute demo video of the live run and add its link to the
-   README.
-4. Fork/clone/star the official OpenMinion repository
-   (github.com/OpenMinion/openminion) and follow @OpenMinion / @Cortensor
-   on GitHub and X (participation step 2 in the hackathon docs).
+   README. (User task — depends on step 2.)
+4. ✅ Fork + star DONE (2026-11-21) — forked
+   github.com/OpenMinion/openminion to
+   https://github.com/Rio-M666/openminion and starred the upstream repo
+   (participation step 2 in the hackathon docs). Still open from that
+   step: follow @OpenMinion / @Cortensor on X (user task).
 5. Open a PR to the dedicated Hackathon #5 submission repository (URL to
    be announced by Cortensor; check
    https://docs-v2.cortensor.network/ecosystem/hackathon-5/ and the
@@ -93,4 +121,4 @@ see "Remaining steps" below.
 6. Also submit the project on the DoraHacks hackathon page for
    Cortensor Hackathon #5.
 7. Designate one payout wallet for $COR (prizes: 50% liquid upfront,
-   50% in a one-month staking lock).
+   50% in a one-month staking lock). (User task.)
