@@ -14,7 +14,7 @@ from collections import Counter
 
 from pydantic import BaseModel, Field
 
-BREAKING_MARKERS = ("breaking", "!: ", "!: ", "remove ", "drop support", "incompatible")
+BREAKING_MARKERS = ("breaking", "!: ", "remove ", "drop support", "incompatible")
 FEATURE_MARKERS = ("feat", "add", "new ")
 FIX_MARKERS = ("fix", "bug", "hotfix")
 

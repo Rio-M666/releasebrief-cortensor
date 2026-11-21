@@ -33,7 +33,7 @@ def _run_git(repo: Path, args: list[str]) -> str:
 
 def collect_git_log(repo_path: str, since: str = "7 days ago", limit: int = 50) -> str:
     """Return recent commits of a local git repo as compact JSON lines."""
-    repo = Path(repo_path).expanduser()
+    repo = Path(repo_path).expanduser().resolve()
     if not (repo / ".git").exists():
         raise ValueError(f"not a git repository: {repo}")
     fmt = "%H%x1f%an%x1f%ad%x1f%s"
@@ -54,7 +54,7 @@ def collect_git_log(repo_path: str, since: str = "7 days ago", limit: int = 50) 
 
 def collect_changed_files(repo_path: str, since: str = "7 days ago") -> str:
     """Summarise which files changed in the window, with insertion/deletion counts."""
-    repo = Path(repo_path).expanduser()
+    repo = Path(repo_path).expanduser().resolve()
     if not (repo / ".git").exists():
         raise ValueError(f"not a git repository: {repo}")
     # Compare HEAD against the newest commit older than the window; fall back
